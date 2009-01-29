@@ -1,7 +1,7 @@
 <module>
-	<rawname>bulkextensions</rawname>
+	<rawname>bulkdids</rawname>
 	<name>Bulk DIDs</name>
-	<description>Bulk Extensions uses CSV files to import bulk DIDs with a destination.</description>
+	<description>Bulk DIDs uses CSV files to import bulk DIDs with a destination.</description>
 	<version>2.5.0.0</version>
 	<type>tool</type>
 	<category>Third Party Addon</category>
