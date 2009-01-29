@@ -63,7 +63,7 @@ if ($_REQUEST["csv_type"] == "output") {
 		      $vars["action"] = trim($aInfo[$aFields["action"][1]]);
 	      }
 
-	      if ($aFields["did"][0]) {
+	      if ($aFields["DID"][0]) {
 		      $vars["extension"]  = trim($aInfo[$aFields["DID"][1]]);
 	      }
 
@@ -87,10 +87,12 @@ if ($_REQUEST["csv_type"] == "output") {
 		      $vars["grppre"] = trim($aInfo[$aFields["grppre"][1]]);
 	      }
 
-      	      if ($aFields["mohclass"][0]) {
+      	      if ($aFields["mohclass"][0] && $aInfo[$aFields["mohclass"][1]]) {
 		      $vars["mohclass"] = trim($aInfo[$aFields["mohclass"][1]]);
 	      }
-
+	      else  {
+		      $vars["mohclass"] = "default";
+	      }
 	      if ($aFields["ringing"][0]) {
 		      $vars["ringing"] = trim($aInfo[$aFields["ringing"][1]]);
 	      }
@@ -98,7 +100,7 @@ if ($_REQUEST["csv_type"] == "output") {
 	      if ($aFields["privacyman"][0]) {
 		      $vars["privacyman"] = trim($aInfo[$aFields["privacyman"][1]]);
 	      }
-
+	      $vars["faxexten"] = "default";
 	      $vars["display"]	= "bulkdids";
 	      $vars["type"]	= "tool";
 
@@ -109,24 +111,37 @@ if ($_REQUEST["csv_type"] == "output") {
 		      switch ($vars["action"]) {
 		      	case "add":
 				ob_start("fatal");
-				core_did_add($vars);
-				ob_flush();
+				if(!core_did_add($vars,($vars["destination"]?$vars["destination"]:false)))  {
+					$output .= "ERROR: ".$vars["extension"]." ".$vars["description"].". See error above<br>";
+
+				}
+				else  {		
+					$output .= "Row $k: Added: " . $vars["extension"];
+					$output .= "<br />";
+				}
+				ob_end_flush();
 
 				// begin status output for this row
-				$output .= "Row $k: Added: " . $vars["extension"];
-				$output .= "<br />";
 				$change = true;
 				break;
 			case "edit":
-				if (core_did_get($vars["extension"])) {
-					core_did_del($vars["extension"]);
+				if (core_did_get($vars["extension"],$vars["cidnum"])) {
+					core_did_del($vars["extension"],$vars["cidnum"]);
+					$error = ob_start("fatal");
+					if(!core_did_add($vars,($vars["destination"]?$vars["destination"]:false)))  {
+						$output .= "ERROR: ".$vars["extension"]." ".$vars["description"].". See error above<br>";
+
+					}
+					else  {
+						$output .= "Row $k: Edited: " . $vars["extension"] . "<BR>";
+					}
+					ob_end_flush();
 					$change = true;
 				}
-				$output .= "Row $k: Edited: " . $vars["extension"] . "<BR>";
 				break;
 			case "del":
-				if (core_did_get($vars["extension"])) {
-					core_did_del($vars["extension"]);
+				if (core_did_get($vars["extension"],$vars["cidnum"])) {
+					core_did_del($vars["extension"],$vars["cidnum"]);
 					$change = true;
 				}
 				$output .= "Row $k: Deleted: " . $vars["extension"] . "<BR>";
@@ -143,7 +158,6 @@ if ($_REQUEST["csv_type"] == "output") {
 		      $output .= "Row $k: Access denied to did " . $vars["extension"] . ".  No action performed.<BR>";
 	      }
       } // while loop
-
        print $output;
 
 } else
@@ -156,10 +170,11 @@ if ($_REQUEST["csv_type"] == "output") {
 		$table_output .=	"<table cellspacing='0' cellpadding='4' rules='rows'>";
 		$table_output .=	"<tr valign='top'>
 						<th align='left' valign='top'>#</th>
-						<th align='left' valign='top'>DID</th>
+						<th align='left' valign='top'>Field</th>
+						<th align='left' valign='top'>Default</th>
+						<th align='left' valign='top'>Allowed</th>
+						<th align='left' valign='top'>Field Details</th>
 						<th align='left' valign='top'>Description</th>
-						<th align='left' valign='top'>Destination</th>
-						<th align='left' valign='top'>CID Num Match</th>
 					</tr>";
 		$i = 1;
 		foreach ($table_rows as $row) {

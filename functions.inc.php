@@ -8,14 +8,14 @@ function exportdids_all() {
 	$csv_header 	= "action,DID,description,destination,cidnum,alertinfo,grppre,mohclass,ringing,privacyman\n";
 	$data 		= $csv_header;
 	$exts 		= get_all_dids();
-
 	foreach ($exts as $ext) {
-		$e 	= $ext[0];
-		$did_info = core_dids_get($e['extension',$e['cidnum']);
+
+		$e 	= $ext;
+		$did_info = core_did_get($e['extension'],$e['cidnum']);
 		$csv_line[0] 	= $action;
 		$csv_line[1] 	= isset($did_info["extension"])?$did_info["extension"]:"";
 		$csv_line[2] 	= isset($did_info["description"])?$did_info["description"]:"";
-		$csv_line[3] 	= isset($did_info["destination"])?$did_info["cid_destination"]:"";
+		$csv_line[3] 	= isset($did_info["destination"])?$did_info["destination"]:"";
 		$csv_line[4] 	= isset($did_info["cidnum"])?$did_info["cidnum"]:"";
 		$csv_line[5] 	= isset($did_info["alertinfo"])?$did_info["alertinfo"]:"";
 		$csv_line[6] 	= isset($did_info["grppre"])?$did_info["grppre"]:"";
@@ -43,7 +43,8 @@ function exportdids_all() {
 
 function get_all_dids() {
 	$sql 	= "SELECT extension,cidnum FROM incoming ORDER BY extension";
-	$extens = sql($sql,"getAll");
+	//$extens = sql($sql,"getAll");
+	$extens = sql($sql,"getAll",DB_FETCHMODE_ASSOC);
 	if (isset($extens)) {
 		return $extens;
 	} else {
@@ -93,7 +94,7 @@ function generate_table_rows() {
 	$k = 0;
 	while (($csv_data = fgetcsv($fh, 1000, ",", "\"")) !== FALSE) {
 		$k++;
-		for ($i = 0; $i < 4; $i++) {
+		for ($i = 0; $i < 5; $i++) {
 			if (isset($csv_data[$i])) {
 				$table[$k][$i] .= $csv_data[$i];
 			} else {

@@ -6,7 +6,7 @@
 	<type>tool</type>
 	<category>Third Party Addon</category>
 	<menuitems>
-		<bulkextensions>Bulk Extensions</bulkextensions>
+		<bulkdids>Bulk DIDs</bulkdids>
 	</menuitems>
 	<depends>
 		<version>ge2.5</version>
