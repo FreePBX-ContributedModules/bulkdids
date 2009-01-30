@@ -37,7 +37,7 @@ function exportdids_all() {
 		$data = $data . "\n";
 		unset($csv_line);
 	}
-	force_download($data, $fname);
+	bulkdids_force_download($data, $fname);
 	return;
 }
 
@@ -52,7 +52,7 @@ function get_all_dids() {
 	}
 }
 
-function force_download ($data, $name, $mimetype="", $filesize=false) {
+function bulkdids_force_download ($data, $name, $mimetype="", $filesize=false) {
     // File size not set?
     if ($filesize == false OR !is_numeric($filesize)) {
         $filesize = strlen($data);
@@ -62,7 +62,7 @@ function force_download ($data, $name, $mimetype="", $filesize=false) {
         $mimetype = "application/octet-stream";
     }
     // Make sure there's not anything else left
-    ob_clean_all();
+    buildids_ob_clean_all();
     // Start sending headers
     header("Pragma: public"); // required
     header("Expires: 0");
@@ -77,7 +77,7 @@ function force_download ($data, $name, $mimetype="", $filesize=false) {
     die();
 }
 
-function ob_clean_all () {
+function bulkdids_ob_clean_all () {
     $ob_active = ob_get_length () !== false;
     while($ob_active) {
         ob_end_clean();
@@ -86,7 +86,7 @@ function ob_clean_all () {
     return true;
 }
 
-function generate_table_rows() {
+function bulkdids_generate_table_rows() {
 	$fh = fopen("modules/bulkdids/table.csv", "r");
 	if ($fh == NULL) {
 		return NULL;

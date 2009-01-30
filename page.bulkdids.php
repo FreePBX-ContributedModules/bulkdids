@@ -163,7 +163,7 @@ if ($_REQUEST["csv_type"] == "output") {
 } else
 {
 	$table_output = "";
-	$table_rows = generate_table_rows();
+	$table_rows = bulkdids_generate_table_rows();
 	if ($table_rows === NULL) {
 		$table_output = "Table unavailable";
 	} else {
