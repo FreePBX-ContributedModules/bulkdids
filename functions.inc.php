@@ -62,7 +62,7 @@ function bulkdids_force_download ($data, $name, $mimetype="", $filesize=false) {
         $mimetype = "application/octet-stream";
     }
     // Make sure there's not anything else left
-    buildids_ob_clean_all();
+    bulkdids_ob_clean_all();
     // Start sending headers
     header("Pragma: public"); // required
     header("Expires: 0");
