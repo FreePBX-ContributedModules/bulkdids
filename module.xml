@@ -1,5 +1,6 @@
 <module>
 	<rawname>bulkdids</rawname>
+	<repo>extended</repo>
 	<name>Bulk DIDs</name>
 	<description>Bulk DIDs uses CSV files to import bulk DIDs with a destination.</description>
 	<version>2.5.0.3</version>
