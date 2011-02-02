@@ -20,7 +20,7 @@
 //
 set_time_limit(3000);
 
-function fatal($text)  {
+function bdid_fatal($text)  {
 	$clean = str_replace("</script>","",str_replace("<script>javascript:alert('","",$text));
 	return "\t".$clean."\n";
 }
@@ -40,11 +40,15 @@ if ($_REQUEST["csv_type"] == "output") {
       "description" => array(false, -1),
       "destination" => array(false, -1),
       "cidnum" => array(false, -1),
+      "pricid" => array(false, -1),
       "alertinfo" => array(false, -1),
       "grppre" => array(false, -1),
       "mohclass" => array(false, -1),
       "ringing" => array(false, -1),
-      "privacyman" => array(false, -1)
+      "delay_answer" => array(false, -1),
+      "privacyman" => array(false, -1),
+      "pmmaxretries" => array(false, -1),
+      "pmminlength" => array(false, -1)
       );
 
       $fh = fopen($_FILES["csvFile"]["tmp_name"], "r");
@@ -98,6 +102,10 @@ if ($_REQUEST["csv_type"] == "output") {
 		      $vars["cidnum"] = trim($aInfo[$aFields["cidnum"][1]]);
 	      }
 
+	      if ($aFields["pricid"][0]) {
+		      $vars["pricid"] = trim($aInfo[$aFields["pricid"][1]]);
+	      }
+
 	      if ($aFields["alertinfo"][0]) {
 		      $vars["alertinfo"] = trim($aInfo[$aFields["alertinfo"][1]]);
 	      }
@@ -106,7 +114,7 @@ if ($_REQUEST["csv_type"] == "output") {
 		      $vars["grppre"] = trim($aInfo[$aFields["grppre"][1]]);
 	      }
 
-      	      if ($aFields["mohclass"][0] && $aInfo[$aFields["mohclass"][1]]) {
+      	if ($aFields["mohclass"][0] && $aInfo[$aFields["mohclass"][1]]) {
 		      $vars["mohclass"] = trim($aInfo[$aFields["mohclass"][1]]);
 	      }
 	      else  {
@@ -116,9 +124,24 @@ if ($_REQUEST["csv_type"] == "output") {
 		      $vars["ringing"] = trim($aInfo[$aFields["ringing"][1]]);
 	      }
 
+	      if ($aFields["delay_answer"][0]) {
+		      $vars["delay_answer"] = trim($aInfo[$aFields["delay_answer"][1]]);
+	      }
+// If privacyman is enabled then check pmmaxretries and pmminlength
 	      if ($aFields["privacyman"][0]) {
 		      $vars["privacyman"] = trim($aInfo[$aFields["privacyman"][1]]);
+		      
+		      if ($aFields["pmmaxretries"][0]) {
+		        $vars["pmmaxretries"] = trim($aInfo[$aFields["pmmaxretries"][1]]);
+		        if($vars["pmmaxretries"] > "10") $vars["pmmaxretries"] = "10";
+	        }
+
+	        if ($aFields["pmminlength"][0]) {
+		        $vars["pmminlength"] = trim($aInfo[$aFields["pmminlength"][1]]);
+		        if($vars["pmminlength"] > "15") $vars["pmminlength"] = "15";
+	        }
 	      }
+
 	      $vars["faxexten"] = "default";
 	      $vars["display"]	= "bulkdids";
 	      $vars["type"]	= "tool";
@@ -129,7 +152,7 @@ if ($_REQUEST["csv_type"] == "output") {
 
 		      switch ($vars["action"]) {
 		      	case "add":
-				ob_start("fatal");
+				ob_start("bdid_fatal");
 				if(!core_did_add($vars,($vars["destination"]?$vars["destination"]:false)))  {
 					$output .= "ERROR: ".$vars["extension"]." ".$vars["description"].". See error above<br>";
 
@@ -146,7 +169,7 @@ if ($_REQUEST["csv_type"] == "output") {
 			case "edit":
 				if (core_did_get($vars["extension"],$vars["cidnum"])) {
 					core_did_del($vars["extension"],$vars["cidnum"]);
-					$error = ob_start("fatal");
+					$error = ob_start("bdid_fatal");
 					if(!core_did_add($vars,($vars["destination"]?$vars["destination"]:false)))  {
 						$output .= "ERROR: ".$vars["extension"]." ".$vars["description"].". See error above<br>";
 
