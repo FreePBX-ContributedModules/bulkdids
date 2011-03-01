@@ -3,7 +3,7 @@
 	<repo>extended</repo>
 	<name>Bulk DIDs</name>
 	<description>Bulk DIDs uses CSV files to import bulk DIDs with a destination.</description>
-	<version>2.9.0.1</version>
+	<version>2.9.0.2</version>
 	<type>tool</type>
 	<category>Advanced Administration</category>
 	<menuitems>
@@ -12,9 +12,10 @@
 	<depends>
 		<version>ge2.8</version>
 	</depends>
-	<location>release/2.9/bulkdids-2.9.0.1.tgz</location>
+	<location>release/2.9/bulkdids-2.9.0.2.tgz</location>
 	<info></info>
 	<changelog>
+		*2.9.0.2* #4897
 	  *2.9.0.1* #4788, #4787
 		*2.9.0.0* Updated for 2.9, not released
 		*2.5.0.3* Updated licensing
@@ -22,6 +23,6 @@
 		*2.5.0.1* Fixed conflict with bulkextensions module
 		*2.5.0.0* Initial Release
 	</changelog>
-	<md5sum>5d18122cf018a538a98bef909c13e049</md5sum>
+	<md5sum>5345f00299cc20410eb6742098eec4b7</md5sum>
 </module>
 
