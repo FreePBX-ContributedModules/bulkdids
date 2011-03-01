@@ -34,6 +34,10 @@ if ($_REQUEST["csv_type"] == "output") {
 	exportdids_all();
 } elseif ($_REQUEST["csv_type"] == "input") {
 
+ if (!$_SESSION["AMP_user"]->checkSection("did")) { 
+  $output = "<h3>Access denied due to Administrator restrictions</h3>";
+  } else {  
+
     $aFields = array (
       "action" => array(false, -1),
       "DID" => array(false, -1),
@@ -59,6 +63,7 @@ if ($_REQUEST["csv_type"] == "output") {
       }
 
       $k = 0;
+      $i = 0;
 
       while ($file_ok && (($aInfo = fgetcsv($fh, 2000, ",", "\"")) !== FALSE)) {
               $k++;
@@ -148,8 +153,6 @@ if ($_REQUEST["csv_type"] == "output") {
 
 	      $_REQUEST = $vars;
 
-	      if (checkRange($vars["extension"])) {
-
 		      switch ($vars["action"]) {
 		      	case "add":
 				ob_start("bdid_fatal");
@@ -196,11 +199,9 @@ if ($_REQUEST["csv_type"] == "output") {
 		      if ($change) {
 			  needreload();
 		      }
-	      } else {
-		      $output .= "Row $k: Access denied to did " . $vars["extension"] . ".  No action performed.<BR>";
-	      }
       } // while loop
-       print $output;
+     }
+     print $output;
 
 } else
 {

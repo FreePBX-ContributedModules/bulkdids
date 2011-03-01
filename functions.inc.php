@@ -115,11 +115,12 @@ function bulkdids_generate_table_rows() {
 		return NULL;
 	}
 	$k = 0;
+	$table = "";
 	while (($csv_data = fgetcsv($fh, 1000, ",", "\"")) !== FALSE) {
 		$k++;
 		for ($i = 0; $i < 5; $i++) {
 			if (isset($csv_data[$i])) {
-				$table[$k][$i] .= $csv_data[$i];
+				$table[$k][$i] = $csv_data[$i];
 			} else {
 				$table[$k][$i] = "";
 			}
