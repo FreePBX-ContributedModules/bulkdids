@@ -15,7 +15,7 @@
 //    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>.
 //
 //    Copyright 2006 Seth Sargent, Steven Ward
-//    Portions Copyright 2009 Mikael Carlsson, mickecamino@gmail.com
+//    Portions Copyright 2009, 2011 Mikael Carlsson, mickecamino@gmail.com
 //    Portions Copyright 2009 Schmooze Communications LLC
 //
 set_time_limit(3000);
@@ -52,7 +52,9 @@ if ($_REQUEST["csv_type"] == "output") {
       "delay_answer" => array(false, -1),
       "privacyman" => array(false, -1),
       "pmmaxretries" => array(false, -1),
-      "pmminlength" => array(false, -1)
+      "pmminlength" => array(false, -1),
+      "cidlookup" => array(false, -1),
+      "langcode" => array(false, 1)
       );
 
       $fh = fopen($_FILES["csvFile"]["tmp_name"], "r");
@@ -146,6 +148,14 @@ if ($_REQUEST["csv_type"] == "output") {
 		        if($vars["pmminlength"] > "15") $vars["pmminlength"] = "15";
 	        }
 	      }
+	      
+	      if ($aFields["cidlookup"][0]) {
+	      	$vars["cidlookup"] = trim($aInfo[$aFields["cidlookup"][1]]);
+	      	}
+
+	      if ($aFields["langcode"][0]) {
+	      	$vars["langcode"] = trim($aInfo[$aFields["langcode"][1]]);
+	      	}
 
 	      $vars["faxexten"] = "default";
 	      $vars["display"]	= "bulkdids";
@@ -164,6 +174,19 @@ if ($_REQUEST["csv_type"] == "output") {
 					$output .= "Row $k: Added: " . $vars["extension"];
 					$output .= "<br />";
 				}
+				// Add Language
+				if (isset($vars["langcode"])) {
+					languages_incoming_update($vars["langcode"],$vars["extension"],$vars["cidnum"]);
+				}
+				// Add CID Lookup Source if it exists, if not, just skip adding it
+				if (isset($vars["cidlookup"])) {
+					// Is there a cidlookup defined for the supplied index?
+					if (cidlookup_get($vars["cidlookup"])) {
+						cidlookup_did_add($vars["cidlookup"],$vars["extension"],$vars["cidnum"]);
+					} else {
+						$output .= "WARNING: Row $k: " . $vars["extension"] . " CID Lookup NOT added, index ".$vars["cidlookup"]." does NOT exist<BR>";
+					}
+				}
 				ob_end_flush();
 
 				// begin status output for this row
@@ -178,8 +201,22 @@ if ($_REQUEST["csv_type"] == "output") {
 
 					}
 					else  {
+						// Edit Language
+						if (isset($vars["langcode"])) {
+							languages_incoming_update($vars["langcode"],$vars["extension"],$vars["cidnum"]);
+						}
+						// Edit CID Lookup Source if it exists, if not, just skip adding it
+						if (isset($vars["cidlookup"])) {
+							if (cidlookup_get($vars["cidlookup"])) {
+								cidlookup_did_del($vars["extension"],$vars["cidnum"]);
+								cidlookup_did_add($vars["cidlookup"],$vars["extension"],$vars["cidnum"]);
+							} else {
+								$output .= "WARNING: Row $k: " . $vars["extension"] . " CID Lookup NOT added, index ".$vars["cidlookup"]." does NOT exist<BR>";
+							}
+						}
 						$output .= "Row $k: Edited: " . $vars["extension"] . "<BR>";
 					}
+					
 					ob_end_flush();
 					$change = true;
 				}
@@ -189,6 +226,14 @@ if ($_REQUEST["csv_type"] == "output") {
 					core_did_del($vars["extension"],$vars["cidnum"]);
 					$change = true;
 				}
+				// Delete Language
+				if (isset($vars["langcode"])) {
+					languages_incoming_delete($vars["extension"],$vars["cidnum"]);
+				}
+				// Delete CID Lookup Source
+				if (isset($vars["cidlookup"])) {
+					cidlookup_did_del($vars["extension"],$vars["cidnum"]);
+				}				
 				$output .= "Row $k: Deleted: " . $vars["extension"] . "<BR>";
 				break;
 			default:

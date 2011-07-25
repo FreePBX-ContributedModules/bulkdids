@@ -15,22 +15,51 @@
 //    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>.
 //
 //    Copyright 2006 Seth Sargent, Steven Ward
-//    Portions Copyright 2009 Mikael Carlsson, mickecamino@gmail.com
+//    Portions Copyright 2009, 2011 Mikael Carlsson, mickecamino@gmail.com
 //    Portions Copyright 2009 Schmooze Communications LLC
 //
 /* functions.inc.php - functions for BulkDIDs module. */
 
+if (file_exists("modules/languages/functions.inc.php")) {
+	include_once("modules/languages/functions.inc.php");        // for using languages functions to retrieve language setting
+	};
+
+if (file_exists("modules/cidlookup/functions.inc.php")) {
+	include_once("modules/cidlookup/functions.inc.php");        // for using cidlookup functions to retrieve cidlookup setting
+	};
+
+if (function_exists("languages_incoming_get") && function_exists("languages_incoming_update")) {
+	$lang_exists    = TRUE;
+} else {
+	$lang_exists    = FALSE;
+}
+
+if (function_exists("cidlookup_did_add") && function_exists("cidlookup_did_del")) {
+	$cidlookup_exists    = TRUE;
+} else {
+	$cidlookup_exists    = FALSE;
+}
+
 function exportdids_all() {
 	global $db;
+	global $lang_exists;
+	global $cidlookup_exists;
+
 	$action		= "edit";
 	$fname		= "bulkdids__" .  (string) time() . $_SERVER["SERVER_NAME"] . ".csv";
-	$csv_header 	= "action,DID,description,destination,cidnum,pricid,alertinfo,grppre,mohclass,ringing,delay_answer,privacyman,pmmaxretries,pmminlength\n";
+	$csv_header 	= "action,DID,description,destination,cidnum,pricid,alertinfo,grppre,mohclass,ringing,delay_answer,privacyman,pmmaxretries,pmminlength,cidlookup,langcode\n";
 	$data 		= $csv_header;
 	$exts 		= get_all_dids();
 	foreach ($exts as $ext) {
 
 		$e 	= $ext;
 		$did_info = core_did_get($e['extension'],$e['cidnum']);
+		if($lang_exists) {
+			$lang_info = languages_incoming_get($e['extension'],$e['cidnum']);
+		}
+		if($cidlookup_exists) {
+			$cid_info = cidlookup_did_get($e['extension']."/".$e['cidnum']);
+		}
 		$csv_line[0] 	= $action;
 		$csv_line[1] 	= isset($did_info["extension"])?$did_info["extension"]:"";
 		$csv_line[2] 	= isset($did_info["description"])?$did_info["description"]:"";
@@ -45,6 +74,8 @@ function exportdids_all() {
 		$csv_line[11]	= isset($did_info["privacyman"])?$did_info["privacyman"]:"";
 		$csv_line[12]	= isset($did_info["pmmaxretries"])?$did_info["pmmaxretries"]:"";
 		$csv_line[13]	= isset($did_info["pmminlength"])?$did_info["pmminlength"]:"";
+		$csv_line[14]	= isset($cid_info)?$cid_info:"";
+		$csv_line[15]	= isset($lang_info)?$lang_info:"";
 
 		for ($i = 0; $i < count($csv_line); $i++) {
 			/* If the string contains a comma, enclose it in double-quotes. */
