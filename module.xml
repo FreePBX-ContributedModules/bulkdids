@@ -9,7 +9,7 @@
 		<bulkdids>Bulk DIDs</bulkdids>
 	</menuitems>
 	<depends>
-		<version>ge2.10</version>
+		<version>ge2.10alpha0</version>
 	</depends>
 	<location>release/2.10/bulkdids-2.10.0.1.tgz</location>
 	<info></info>
