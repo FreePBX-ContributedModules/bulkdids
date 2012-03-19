@@ -19,9 +19,11 @@ if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 //    Portions Copyright 2009, 2011 Mikael Carlsson, mickecamino@gmail.com
 //    Portions Copyright 2009 Schmooze Communications LLC
 //
+include('bulkdids.inc.php');
+
 set_time_limit(3000);
 
-function bdid_fatal($text)  {
+function bulkdids_fatal($text)  {
 	$clean = str_replace("</script>","",str_replace("<script>javascript:alert('","",$text));
 	return "\t".$clean."\n";
 }
@@ -32,7 +34,7 @@ $change = false;
 $output = "";
 
 if ($_REQUEST["csv_type"] == "output") {
-	exportdids_all();
+	bulkdids_exportdids_all();
 } elseif ($_REQUEST["csv_type"] == "input") {
 
  if (!$_SESSION["AMP_user"]->checkSection("did")) { 
@@ -166,7 +168,7 @@ if ($_REQUEST["csv_type"] == "output") {
 
 		      switch ($vars["action"]) {
 		      	case "add":
-				ob_start("bdid_fatal");
+				ob_start("bulkdids_fatal");
 				if(!core_did_add($vars,($vars["destination"]?$vars["destination"]:false)))  {
 					$output .= "ERROR: ".$vars["extension"]." ".$vars["description"].". See error above<br>";
 
@@ -196,7 +198,7 @@ if ($_REQUEST["csv_type"] == "output") {
 			case "edit":
 				if (core_did_get($vars["extension"],$vars["cidnum"])) {
 					core_did_del($vars["extension"],$vars["cidnum"]);
-					$error = ob_start("bdid_fatal");
+					$error = ob_start("bulkdids_fatal");
 					if(!core_did_add($vars,($vars["destination"]?$vars["destination"]:false)))  {
 						$output .= "ERROR: ".$vars["extension"]." ".$vars["description"].". See error above<br>";
 
