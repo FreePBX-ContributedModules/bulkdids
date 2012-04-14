@@ -21,6 +21,14 @@ if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 //
 /* functions.inc.php - functions for BulkDIDs module. */
 
+if (file_exists("modules/languages/functions.inc.php")) {
+	include_once("modules/languages/functions.inc.php");        // for using languages functions to retrieve language setting
+	};
+
+if (file_exists("modules/cidlookup/functions.inc.php")) {
+	include_once("modules/cidlookup/functions.inc.php");        // for using cidlookup functions to retrieve cidlookup setting
+	};
+
 if (function_exists("languages_incoming_get") && function_exists("languages_incoming_update")) {
 	$lang_exists    = TRUE;
 } else {
@@ -33,7 +41,7 @@ if (function_exists("cidlookup_did_add") && function_exists("cidlookup_did_del")
 	$cidlookup_exists    = FALSE;
 }
 
-function bulkdids_exportdids_all() {
+function exportdids_all() {
 	global $db;
 	global $lang_exists;
 	global $cidlookup_exists;
@@ -42,7 +50,7 @@ function bulkdids_exportdids_all() {
 	$fname		= "bulkdids__" .  (string) time() . $_SERVER["SERVER_NAME"] . ".csv";
 	$csv_header 	= "action,DID,description,destination,cidnum,pricid,alertinfo,grppre,mohclass,ringing,delay_answer,privacyman,pmmaxretries,pmminlength,cidlookup,langcode\n";
 	$data 		= $csv_header;
-	$exts 		= bulkdids_get_all_dids();
+	$exts 		= get_all_dids();
 	foreach ($exts as $ext) {
 
 		$e 	= $ext;
@@ -88,7 +96,7 @@ function bulkdids_exportdids_all() {
 	return;
 }
 
-function bulkdids_get_all_dids() {
+function get_all_dids() {
 	$sql 	= "SELECT extension,cidnum FROM incoming ORDER BY extension";
 	//$extens = sql($sql,"getAll");
 	$extens = sql($sql,"getAll",DB_FETCHMODE_ASSOC);
