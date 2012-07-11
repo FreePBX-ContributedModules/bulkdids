@@ -178,11 +178,11 @@ if ($_REQUEST["csv_type"] == "output") {
 					$output .= "<br />";
 				}
 				// Add Language
-				if (isset($vars["langcode"])) {
+				if (isset($vars["langcode"]) && $bulkdids_lang_exists == TRUE) {
 					languages_incoming_update($vars["langcode"],$vars["extension"],$vars["cidnum"]);
 				}
 				// Add CID Lookup Source if it exists, if not, just skip adding it
-				if (isset($vars["cidlookup"])) {
+				if (isset($vars["cidlookup"]) && $bulkdids_cidlookup_exists == TRUE) {
 					// Is there a cidlookup defined for the supplied index?
 					if (cidlookup_get($vars["cidlookup"])) {
 						cidlookup_did_add($vars["cidlookup"],$vars["extension"],$vars["cidnum"]);
@@ -205,11 +205,11 @@ if ($_REQUEST["csv_type"] == "output") {
 					}
 					else  {
 						// Edit Language
-						if (isset($vars["langcode"])) {
+						if (isset($vars["langcode"]) && $bulkdids_lang_exists == TRUE) {
 							languages_incoming_update($vars["langcode"],$vars["extension"],$vars["cidnum"]);
 						}
 						// Edit CID Lookup Source if it exists, if not, just skip adding it
-						if (isset($vars["cidlookup"])) {
+						if (isset($vars["cidlookup"]) && $bulkdids_cidlookup_exists == TRUE) {
 							if (cidlookup_get($vars["cidlookup"])) {
 								cidlookup_did_del($vars["extension"],$vars["cidnum"]);
 								cidlookup_did_add($vars["cidlookup"],$vars["extension"],$vars["cidnum"]);
@@ -230,11 +230,11 @@ if ($_REQUEST["csv_type"] == "output") {
 					$change = true;
 				}
 				// Delete Language
-				if (isset($vars["langcode"])) {
+				if (isset($vars["langcode"]) && $bulkdids_lang_exists == TRUE) {
 					languages_incoming_delete($vars["extension"],$vars["cidnum"]);
 				}
 				// Delete CID Lookup Source
-				if (isset($vars["cidlookup"])) {
+				if (isset($vars["cidlookup"]) && $bulkdids_cidlookup_exists == TRUE) {
 					cidlookup_did_del($vars["extension"],$vars["cidnum"]);
 				}				
 				$output .= "Row $k: Deleted: " . $vars["extension"] . "<BR>";

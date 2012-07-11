@@ -30,35 +30,35 @@ if (file_exists("modules/cidlookup/functions.inc.php")) {
 	};
 
 if (function_exists("languages_incoming_get") && function_exists("languages_incoming_update")) {
-	$lang_exists    = TRUE;
+	$bulkdids_lang_exists    = TRUE;
 } else {
-	$lang_exists    = FALSE;
+	$bulkdids_lang_exists    = FALSE;
 }
 
 if (function_exists("cidlookup_did_add") && function_exists("cidlookup_did_del")) {
-	$cidlookup_exists    = TRUE;
+	$bulkdids_cidlookup_exists    = TRUE;
 } else {
-	$cidlookup_exists    = FALSE;
+	$bulkdids_cidlookup_exists    = FALSE;
 }
 
-function exportdids_all() {
+function bulkdids_exportdids_all() {
 	global $db;
-	global $lang_exists;
-	global $cidlookup_exists;
+	global $bulkdids_lang_exists;
+	global $bulkdids_cidlookup_exists;
 
 	$action		= "edit";
 	$fname		= "bulkdids__" .  (string) time() . $_SERVER["SERVER_NAME"] . ".csv";
 	$csv_header 	= "action,DID,description,destination,cidnum,pricid,alertinfo,grppre,mohclass,ringing,delay_answer,privacyman,pmmaxretries,pmminlength,cidlookup,langcode\n";
 	$data 		= $csv_header;
-	$exts 		= get_all_dids();
+	$exts 		= bulkdids_get_all_dids();
 	foreach ($exts as $ext) {
 
 		$e 	= $ext;
 		$did_info = core_did_get($e['extension'],$e['cidnum']);
-		if($lang_exists) {
+		if($bulkdids_lang_exists) {
 			$lang_info = languages_incoming_get($e['extension'],$e['cidnum']);
 		}
-		if($cidlookup_exists) {
+		if($bulkdids_cidlookup_exists) {
 			$cid_info = cidlookup_did_get($e['extension']."/".$e['cidnum']);
 		}
 		$csv_line[0] 	= $action;
@@ -96,7 +96,7 @@ function exportdids_all() {
 	return;
 }
 
-function get_all_dids() {
+function bulkdids_get_all_dids() {
 	$sql 	= "SELECT extension,cidnum FROM incoming ORDER BY extension";
 	//$extens = sql($sql,"getAll");
 	$extens = sql($sql,"getAll",DB_FETCHMODE_ASSOC);
