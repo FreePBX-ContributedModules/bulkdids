@@ -11,7 +11,7 @@
 	<depends>
 		<version>ge2.10alpha0</version>
 	</depends>
-	<location>release/2.10/bulkdids-2.10.0.5.tgz</location>
+	<location>release/2.11/bulkdids-2.10.0.5.tgz</location>
 	<info/>
 	<changelog>
 		*2.10.0.5* #5852
@@ -28,5 +28,5 @@
 		*2.5.0.1* Fixed conflict with bulkextensions module
 		*2.5.0.0* Initial Release
 	</changelog>
-	<md5sum>9075b6b85c36eaa88e13d55427b0fbe4</md5sum>
+	<md5sum>a44ae6d15d8d0873342a77319dd37326</md5sum>
 </module>
