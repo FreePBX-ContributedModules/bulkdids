@@ -13,7 +13,7 @@
 		<version>ge2.10</version>
 	</depends>
 	<location>release/2.10/bulkdids-2.10.0.0.tgz</location>
-	<info></info>
+	<info/>
 	<changelog>
 		*2.10.0.0 #4898
 		*2.9.0.2* #4897
@@ -25,5 +25,4 @@
 		*2.5.0.0* Initial Release
 	</changelog>
 	<md5sum>8d11139f4939065f283d46c67a8527f4</md5sum>
-</module>
-
+<supported><version>2.10</version></supported></module>
