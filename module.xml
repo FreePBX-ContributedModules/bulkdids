@@ -27,4 +27,4 @@
 		*2.5.0.0* Initial Release
 	</changelog>
 	<md5sum>72cd8bb9182b8cd47387ea7c5845213a</md5sum>
-</module>
+<supported><version>2.10</version></supported></module>
