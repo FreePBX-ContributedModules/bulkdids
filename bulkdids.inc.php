@@ -21,34 +21,37 @@ if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 //
 /* functions.inc.php - functions for BulkDIDs module. */
 
+$bulkdids_lang_exists = false;
 if (file_exists("modules/languages/functions.inc.php")) {
 	include_once("modules/languages/functions.inc.php");        // for using languages functions to retrieve language setting
-	};
-
-if (file_exists("modules/cidlookup/functions.inc.php")) {
-	include_once("modules/cidlookup/functions.inc.php");        // for using cidlookup functions to retrieve cidlookup setting
-	};
-
+};
 if (function_exists("languages_incoming_get") && function_exists("languages_incoming_update")) {
-	$bulkdids_lang_exists    = TRUE;
-} else {
-	$bulkdids_lang_exists    = FALSE;
+	$bulkdids_lang_exists    = true;
 }
 
+$bulkdids_cidlookup_exists = false;
+if (file_exists("modules/cidlookup/functions.inc.php")) {
+	include_once("modules/cidlookup/functions.inc.php");        // for using cidlookup functions to retrieve cidlookup setting
+};
 if (function_exists("cidlookup_did_add") && function_exists("cidlookup_did_del")) {
-	$bulkdids_cidlookup_exists    = TRUE;
-} else {
-	$bulkdids_cidlookup_exists    = FALSE;
+	$bulkdids_cidlookup_exists    = true;
+}
+
+$bulkdids_fax_exists = false;
+if (file_exists("modules/fax/functions.inc.php")) {
+	include_once("modules/fax/functions.inc.php");
+}
+if (function_exists("fax_save_incoming") && function_exists("fax_delete_incoming")) {
+	$bulkdids_fax_exists = true;
 }
 
 function bulkdids_exportdids_all() {
 	global $db;
-	global $bulkdids_lang_exists;
-	global $bulkdids_cidlookup_exists;
+	global $bulkdids_lang_exists,$bulkdids_cidlookup_exists,$bulkdids_fax_exists;
 
 	$action		= "edit";
 	$fname		= "bulkdids__" .  (string) time() . $_SERVER["SERVER_NAME"] . ".csv";
-	$csv_header 	= "action,DID,description,destination,cidnum,pricid,alertinfo,grppre,mohclass,ringing,delay_answer,privacyman,pmmaxretries,pmminlength,cidlookup,langcode\n";
+	$csv_header 	= "action,DID,description,destination,cidnum,pricid,alertinfo,grppre,mohclass,ringing,delay_answer,privacyman,pmmaxretries,pmminlength,cidlookup,langcode,faxdetect,faxdetectiontype,faxdetectiontime,faxdestination\n";
 	$data 		= $csv_header;
 	$exts 		= bulkdids_get_all_dids();
 	foreach ($exts as $ext) {
@@ -60,6 +63,13 @@ function bulkdids_exportdids_all() {
 		}
 		if($bulkdids_cidlookup_exists) {
 			$cid_info = cidlookup_did_get($e['extension']."/".$e['cidnum']);
+		}
+		if($bulkdids_fax_exists) {
+			$fax_info = fax_get_incoming($e['extension'],$e['cidnum']);
+			$fax_detect = 'no';
+			if (!empty($fax_info)) {
+				$fax_detect = 'yes';
+			}
 		}
 		$csv_line[0] 	= $action;
 		$csv_line[1] 	= isset($did_info["extension"])?$did_info["extension"]:"";
@@ -77,7 +87,12 @@ function bulkdids_exportdids_all() {
 		$csv_line[13]	= isset($did_info["pmminlength"])?$did_info["pmminlength"]:"";
 		$csv_line[14]	= isset($cid_info)?$cid_info:"";
 		$csv_line[15]	= isset($lang_info)?$lang_info:"";
-
+		if (isset($fax_detect)) {
+			$csv_line[16]	= $fax_detect;
+			$csv_line[17]	= isset($fax_info['detection'])?$fax_info['detection']:"";
+			$csv_line[18]	= isset($fax_info['detectionwait'])?$fax_info['detectionwait']:"";
+			$csv_line[19]	= isset($fax_info['destination'])?$fax_info['destination']:"";
+		}
 		for ($i = 0; $i < count($csv_line); $i++) {
 			/* If the string contains a comma, enclose it in double-quotes. */
 			if (strpos($csv_line[$i], ",") !== FALSE) {

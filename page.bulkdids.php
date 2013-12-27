@@ -57,8 +57,11 @@ if ($_REQUEST["csv_type"] == "output") {
       "pmmaxretries" => array(false, -1),
       "pmminlength" => array(false, -1),
       "cidlookup" => array(false, -1),
-      "langcode" => array(false, 1)
-      );
+      "langcode" => array(false, 1),
+      "faxdetect" => array(false, -1),
+      "faxdetectiontype" => array(false, -1),
+      "faxdetectiontime" => array(false, -1),
+      "faxdestination" => array(false, -1));
 
       $fh = fopen($_FILES["csvFile"]["tmp_name"], "r");
       if ($fh == NULL) {
@@ -160,10 +163,28 @@ if ($_REQUEST["csv_type"] == "output") {
 	      	$vars["langcode"] = trim($aInfo[$aFields["langcode"][1]]);
 	      	}
 
+		if ($aFields["faxdetect"][0]) {
+      			$vars["faxdetect"] = trim(strtolower($aInfo[$aFields["faxdetect"][1]]));
+		}
+		if ($aFields["faxdetectiontype"][0]) {
+                        $vars["faxdetectiontype"] = trim(strtolower($aInfo[$aFields["faxdetectiontype"][1]]));
+                }
+		if ($aFields["faxdetectiontime"][0]) {
+                        $vars["faxdetectiontime"] = trim($aInfo[$aFields["faxdetectiontime"][1]]);
+			if ($vars["faxdectiontime"] < 2) {
+				$vars["faxdetectiontime"] = 2;
+			} elseif ($vars["faxdetectiontime"] > 10) {
+				$vars["faxdetectiontime"] = 10;
+			}
+                }
+		if ($aFields["faxdestination"][0]) {
+                        $vars["faxdestination"] = trim($aInfo[$aFields["faxdestination"][1]]);
+                }
+
 	      $vars["faxexten"] = "default";
 	      $vars["display"]	= "bulkdids";
 	      $vars["type"]	= "tool";
-
+	      
 	      $_REQUEST = $vars;
 
 		      switch ($vars["action"]) {
@@ -189,6 +210,10 @@ if ($_REQUEST["csv_type"] == "output") {
 					} else {
 						$output .= "WARNING: Row $k: " . $vars["extension"] . " CID Lookup NOT added, index ".$vars["cidlookup"]." does NOT exist<BR>";
 					}
+				}
+				//Add inbound fax information
+				if (isset($vars["faxdetect"]) && $vars["faxdetect"] == "yes" && $bulkdids_fax_exists == TRUE) {
+					fax_save_incoming($vars["cidnum"],$vars["extension"],true,$vars["faxdetectiontype"],$vars["faxdetectiontime"],$vars["faxdestination"],null);
 				}
 				ob_end_flush();
 
@@ -217,6 +242,12 @@ if ($_REQUEST["csv_type"] == "output") {
 								$output .= "WARNING: Row $k: " . $vars["extension"] . " CID Lookup NOT added, index ".$vars["cidlookup"]." does NOT exist<BR>";
 							}
 						}
+						if ($bulkdids_fax_exists == TRUE) {
+							fax_delete_incoming($vars["extension"]."/".$vars["cidnum"]);
+							if (isset($vars["faxdetect"]) && $vars["faxdetect"] == "yes") {
+		                        			fax_save_incoming($vars["cidnum"],$vars["extension"],true,$vars["faxdetectiontype"],$vars["faxdetectiontime"],$vars["faxdestination"],null);  			
+                                			}
+						}
 						$output .= "Row $k: Edited: " . $vars["extension"] . "<BR>";
 					}
 					
@@ -236,7 +267,10 @@ if ($_REQUEST["csv_type"] == "output") {
 				// Delete CID Lookup Source
 				if (isset($vars["cidlookup"]) && $bulkdids_cidlookup_exists == TRUE) {
 					cidlookup_did_del($vars["extension"],$vars["cidnum"]);
-				}				
+				}			
+				if ($bulkdids_fax_exists == TRUE) {
+					fax_delete_incoming($vars["extension"]."/".$vars["cidnum"]);
+				}	
 				$output .= "Row $k: Deleted: " . $vars["extension"] . "<BR>";
 				break;
 			default:
