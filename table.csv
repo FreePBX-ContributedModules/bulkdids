@@ -1,6 +1,6 @@
-action,,"add, del, edit",,"Add, Delete, or Edit an Extension.",
+action,,"add, edit, del",,"Add, Edit, or Delete an Inbound Route.",
 DID,,,DID Number,The incoming DID to match,
-description,,,Description,"The caller id name for calls from this user will be set to this name. Only enter the name, NOT the number.",
+description,,,Description,"Provide a meaningful description of what this incoming route is",
 destination,,,Destination,"The context, extension, priority to go to when this DID is matched.  Example: app-daynight,0,1"," if different from the extension number. This is used to masquerade as a different user. A common example is a team of support people who would like their internal callerid to display the general support number (a ringgroup or queue). There will be no effect on external calls."" "
 cidnum,,,Caller ID Number,"Define the Caller ID Number to be matched on incoming calls. Leave this field blank to match any or no CID info. In addition to standard dial sequences, you can also put Private, Blocked, Unknown, Restricted, Anonymous and Unavailable in order to catch these special cases if the Telco transmits them.",
 pricid,,CHECKED,CID Priority Route,"This effects CID ONLY routes where no DID is specified. If checked, calls with this CID will be routed to this route, even if there is a route to the DID that was called. Normal behavior is for the DID route to take the calls. If there is a specific DID/CID route for this CID, that route will still take the call when that DID is called",
