@@ -7,28 +7,33 @@ if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 //
 /* functions.inc.php - functions for BulkDIDs module. */
 
+$modInstall = module_getinfo();
+
 $bulkdids_lang_exists = false;
-if (file_exists("modules/languages/functions.inc.php")) {
-	include_once("modules/languages/functions.inc.php");        // for using languages functions to retrieve language setting
-};
-if (function_exists("languages_incoming_get") && function_exists("languages_incoming_update")) {
-	$bulkdids_lang_exists    = true;
+if ($modInstall['languages']['status'] == MODULE_STATUS_ENABLED && file_exists("modules/languages/functions.inc.php")) {
+	include_once("modules/languages/functions.inc.php"); // for using languages functions to retrieve language setting
+
+	if (function_exists("languages_incoming_get") && function_exists("languages_incoming_update")) {
+		$bulkdids_lang_exists    = true;
+	}
 }
 
 $bulkdids_cidlookup_exists = false;
-if (file_exists("modules/cidlookup/functions.inc.php")) {
-	include_once("modules/cidlookup/functions.inc.php");        // for using cidlookup functions to retrieve cidlookup setting
-};
-if (function_exists("cidlookup_did_add") && function_exists("cidlookup_did_del")) {
-	$bulkdids_cidlookup_exists    = true;
+if ($modInstall['cidlookup']['status'] == MODULE_STATUS_ENABLED && file_exists("modules/cidlookup/functions.inc.php")) {
+	include_once("modules/cidlookup/functions.inc.php"); // for using cidlookup functions to retrieve cidlookup setting
+
+	if (function_exists("cidlookup_did_add") && function_exists("cidlookup_did_del")) {
+		$bulkdids_cidlookup_exists    = true;
+	}
 }
 
 $bulkdids_fax_exists = false;
-if (file_exists("modules/fax/functions.inc.php")) {
-	include_once("modules/fax/functions.inc.php");
-}
-if (function_exists("fax_save_incoming") && function_exists("fax_delete_incoming")) {
-	$bulkdids_fax_exists = true;
+if ($modInstall['fax']['status'] == MODULE_STATUS_ENABLED && file_exists("modules/fax/functions.inc.php")) {
+	include_once("modules/fax/functions.inc.php"); // for using fax functions to retreive fax settings
+
+	if (function_exists("fax_save_incoming") && function_exists("fax_delete_incoming")) {
+		$bulkdids_fax_exists = true;
+	}
 }
 
 function bulkdids_exportdids_all() {
