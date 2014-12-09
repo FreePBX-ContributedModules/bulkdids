@@ -1,48 +1,39 @@
 <?php
 if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
-//This file is part of FreePBX.
-//
-//    FreePBX is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU General Public License as published by
-//    the Free Software Foundation, either version 2 of the License, or
-//    (at your option) any later version.
-//
-//    FreePBX is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU General Public License for more details.
-//
-//    You should have received a copy of the GNU General Public License
-//    along with FreePBX.  If not, see <http://www.gnu.org/licenses/>.
-//
-//    Copyright 2006 Seth Sargent, Steven Ward
-//    Portions Copyright 2009, 2011 Mikael Carlsson, mickecamino@gmail.com
-//    Portions Copyright 2009 Schmooze Communications LLC
+//	License for all code of this FreePBX module can be found in the license file inside the module directory
+//  Copyright 2006 Seth Sargent, Steven Ward
+//  Portions Copyright 2009, 2011 Mikael Carlsson, mickecamino@gmail.com
+//	Copyright 2013 Schmooze Com Inc.
 //
 /* functions.inc.php - functions for BulkDIDs module. */
 
+$modInstall = module_getinfo();
+
 $bulkdids_lang_exists = false;
-if (file_exists("modules/languages/functions.inc.php")) {
-	include_once("modules/languages/functions.inc.php");        // for using languages functions to retrieve language setting
-};
-if (function_exists("languages_incoming_get") && function_exists("languages_incoming_update")) {
-	$bulkdids_lang_exists    = true;
+if ($modInstall['languages']['status'] == MODULE_STATUS_ENABLED && file_exists("modules/languages/functions.inc.php")) {
+	include_once("modules/languages/functions.inc.php"); // for using languages functions to retrieve language setting
+
+	if (function_exists("languages_incoming_get") && function_exists("languages_incoming_update")) {
+		$bulkdids_lang_exists    = true;
+	}
 }
 
 $bulkdids_cidlookup_exists = false;
-if (file_exists("modules/cidlookup/functions.inc.php")) {
-	include_once("modules/cidlookup/functions.inc.php");        // for using cidlookup functions to retrieve cidlookup setting
-};
-if (function_exists("cidlookup_did_add") && function_exists("cidlookup_did_del")) {
-	$bulkdids_cidlookup_exists    = true;
+if ($modInstall['cidlookup']['status'] == MODULE_STATUS_ENABLED && file_exists("modules/cidlookup/functions.inc.php")) {
+	include_once("modules/cidlookup/functions.inc.php"); // for using cidlookup functions to retrieve cidlookup setting
+
+	if (function_exists("cidlookup_did_add") && function_exists("cidlookup_did_del")) {
+		$bulkdids_cidlookup_exists    = true;
+	}
 }
 
 $bulkdids_fax_exists = false;
-if (file_exists("modules/fax/functions.inc.php")) {
-	include_once("modules/fax/functions.inc.php");
-}
-if (function_exists("fax_save_incoming") && function_exists("fax_delete_incoming")) {
-	$bulkdids_fax_exists = true;
+if ($modInstall['fax']['status'] == MODULE_STATUS_ENABLED && file_exists("modules/fax/functions.inc.php")) {
+	include_once("modules/fax/functions.inc.php"); // for using fax functions to retreive fax settings
+
+	if (function_exists("fax_save_incoming") && function_exists("fax_delete_incoming")) {
+		$bulkdids_fax_exists = true;
+	}
 }
 
 function bulkdids_exportdids_all() {
