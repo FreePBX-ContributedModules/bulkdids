@@ -23,9 +23,9 @@ if ($_REQUEST["csv_type"] == "output") {
 	bulkdids_exportdids_all();
 } elseif ($_REQUEST["csv_type"] == "input") {
 
- if (!$_SESSION["AMP_user"]->checkSection("did")) { 
+ if (!$_SESSION["AMP_user"]->checkSection("did")) {
   $output = "<h3>Access denied due to Administrator restrictions</h3>";
-  } else {  
+  } else {
 
     $aFields = array (
       "action" => array(false, -1),
@@ -129,7 +129,7 @@ if ($_REQUEST["csv_type"] == "output") {
 // If privacyman is enabled then check pmmaxretries and pmminlength
 	      if ($aFields["privacyman"][0]) {
 		      $vars["privacyman"] = trim($aInfo[$aFields["privacyman"][1]]);
-		      
+
 		      if ($aFields["pmmaxretries"][0]) {
 		        $vars["pmmaxretries"] = trim($aInfo[$aFields["pmmaxretries"][1]]);
 		        if($vars["pmmaxretries"] > "10") $vars["pmmaxretries"] = "10";
@@ -140,7 +140,7 @@ if ($_REQUEST["csv_type"] == "output") {
 		        if($vars["pmminlength"] > "15") $vars["pmminlength"] = "15";
 	        }
 	      }
-	      
+
 	      if ($aFields["cidlookup"][0]) {
 	      	$vars["cidlookup"] = trim($aInfo[$aFields["cidlookup"][1]]);
 	      	}
@@ -156,13 +156,13 @@ if ($_REQUEST["csv_type"] == "output") {
                         $vars["faxdetectiontype"] = trim(strtolower($aInfo[$aFields["faxdetectiontype"][1]]));
                 }
 		if ($aFields["faxdetectiontime"][0]) {
-                        $vars["faxdetectiontime"] = trim($aInfo[$aFields["faxdetectiontime"][1]]);
-			if ($vars["faxdectiontime"] < 2) {
+			$vars["faxdetectiontime"] = trim($aInfo[$aFields["faxdetectiontime"][1]]);
+			if ($vars["faxdetectiontime"] < 2) {
 				$vars["faxdetectiontime"] = 2;
 			} elseif ($vars["faxdetectiontime"] > 10) {
 				$vars["faxdetectiontime"] = 10;
 			}
-                }
+		}
 		if ($aFields["faxdestination"][0]) {
                         $vars["faxdestination"] = trim($aInfo[$aFields["faxdestination"][1]]);
                 }
@@ -170,7 +170,7 @@ if ($_REQUEST["csv_type"] == "output") {
 	      $vars["faxexten"] = "default";
 	      $vars["display"]	= "bulkdids";
 	      $vars["type"]	= "tool";
-	      
+
 	      $_REQUEST = $vars;
 
 		      switch ($vars["action"]) {
@@ -180,7 +180,7 @@ if ($_REQUEST["csv_type"] == "output") {
 					$output .= "ERROR: ".$vars["extension"]." ".$vars["description"].". See error above<br>";
 
 				}
-				else  {		
+				else  {
 					$output .= "Row $k: Added: " . $vars["extension"];
 					$output .= "<br />";
 				}
@@ -231,12 +231,12 @@ if ($_REQUEST["csv_type"] == "output") {
 						if ($bulkdids_fax_exists == TRUE) {
 							fax_delete_incoming($vars["extension"]."/".$vars["cidnum"]);
 							if (isset($vars["faxdetect"]) && $vars["faxdetect"] == "yes") {
-		                        			fax_save_incoming($vars["cidnum"],$vars["extension"],true,$vars["faxdetectiontype"],$vars["faxdetectiontime"],$vars["faxdestination"],null);  			
+		                        			fax_save_incoming($vars["cidnum"],$vars["extension"],true,$vars["faxdetectiontype"],$vars["faxdetectiontime"],$vars["faxdestination"],null);
                                 			}
 						}
 						$output .= "Row $k: Edited: " . $vars["extension"] . "<BR>";
 					}
-					
+
 					ob_end_flush();
 					$change = true;
 				}
@@ -253,17 +253,17 @@ if ($_REQUEST["csv_type"] == "output") {
 				// Delete CID Lookup Source
 				if (isset($vars["cidlookup"]) && $bulkdids_cidlookup_exists == TRUE) {
 					cidlookup_did_del($vars["extension"],$vars["cidnum"]);
-				}			
+				}
 				if ($bulkdids_fax_exists == TRUE) {
 					fax_delete_incoming($vars["extension"]."/".$vars["cidnum"]);
-				}	
+				}
 				$output .= "Row $k: Deleted: " . $vars["extension"] . "<BR>";
 				break;
 			default:
 				$output .= "Row $k: Unrecognized action: the only actions recognized are add, edit, del.\n";
 				break;
 		      }
-	
+
 		      if ($change) {
 			  needreload();
 		      }
