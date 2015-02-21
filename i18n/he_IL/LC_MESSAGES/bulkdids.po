@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-11 16:40-0500\n"
+"POT-Creation-Date: 2015-02-20 19:02-0500\n"
 "PO-Revision-Date: 2014-03-04 09:09+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Hebrew <http://git.freepbx.org/projects/freepbx/bulkdids/he/"
@@ -32,6 +32,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 1.9-dev\n"
 
+#: bulkdids.i18n.php:4 bulkdids.i18n.php:10
 #, fuzzy
-#~ msgid "Applications"
-#~ msgstr "יישומים"
+msgid "Applications"
+msgstr "יישומים"
+
+#: bulkdids.i18n.php:3 bulkdids.i18n.php:6 bulkdids.i18n.php:8
+#: bulkdids.i18n.php:14
+msgid "Bulk DIDs"
+msgstr ""
+
+#: bulkdids.i18n.php:5 bulkdids.i18n.php:12
+msgid "Bulk DIDs uses CSV files to import bulk DIDs with a destination."
+msgstr ""

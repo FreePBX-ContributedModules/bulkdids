@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.10.0.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-11 16:40-0500\n"
+"POT-Creation-Date: 2015-02-20 19:02-0500\n"
 "PO-Revision-Date: 2013-11-07 12:53+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -47,13 +47,17 @@ msgstr ""
 "Language: Japanese\n"
 "X-Generator: Poedit 1.5.7\n"
 
-#~ msgid "Bulk DIDs"
-#~ msgstr "DID一括処理"
+#: bulkdids.i18n.php:4 bulkdids.i18n.php:10
+msgid "Applications"
+msgstr "アプリケーション"
 
-#~ msgid "Applications"
-#~ msgstr "アプリケーション"
+#: bulkdids.i18n.php:3 bulkdids.i18n.php:6 bulkdids.i18n.php:8
+#: bulkdids.i18n.php:14
+msgid "Bulk DIDs"
+msgstr "DID一括処理"
 
-#~ msgid "Bulk DIDs uses CSV files to import bulk DIDs with a destination."
-#~ msgstr ""
-#~ "DID一括処理は宛先と大量のDID情報をインポートする際に、CSVファイルを使用し"
-#~ "ます。"
+#: bulkdids.i18n.php:5 bulkdids.i18n.php:12
+msgid "Bulk DIDs uses CSV files to import bulk DIDs with a destination."
+msgstr ""
+"DID一括処理は宛先と大量のDID情報をインポートする際に、CSVファイルを使用しま"
+"す。"
