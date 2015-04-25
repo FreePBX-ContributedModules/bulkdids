@@ -28,7 +28,7 @@ msgstr "Aplicações"
 #: bulkdids.i18n.php:3 bulkdids.i18n.php:6 bulkdids.i18n.php:8
 #: bulkdids.i18n.php:14
 msgid "Bulk DIDs"
-msgstr "DIDs em massa"
+msgstr "DIDs em Massa"
 
 #: bulkdids.i18n.php:5 bulkdids.i18n.php:12
 msgid "Bulk DIDs uses CSV files to import bulk DIDs with a destination."
