@@ -10,23 +10,27 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-20 19:02-0500\n"
-"PO-Revision-Date: 2015-02-20 19:02-0500\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2015-04-25 00:55+0200\n"
+"Last-Translator: Paulo <paulop1975@gmail.com>\n"
+"Language-Team: Portuguese (Portugal) "
+"<http://weblate.freepbx.org/projects/freepbx/bulkdids/pt_PT/>\n"
+"Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.2-dev\n"
 
 #: bulkdids.i18n.php:4 bulkdids.i18n.php:10
 msgid "Applications"
-msgstr ""
+msgstr "Aplicações"
 
 #: bulkdids.i18n.php:3 bulkdids.i18n.php:6 bulkdids.i18n.php:8
 #: bulkdids.i18n.php:14
 msgid "Bulk DIDs"
-msgstr ""
+msgstr "DIDs em massa"
 
 #: bulkdids.i18n.php:5 bulkdids.i18n.php:12
 msgid "Bulk DIDs uses CSV files to import bulk DIDs with a destination."
 msgstr ""
+"DIDs em Massa usa ficheiros CSV para importar DIDs em Massa com um destino."
