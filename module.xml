@@ -1,9 +1,9 @@
 <module>
 	<rawname>bulkdids</rawname>
-	<repo>extended</repo>
+	<repo>unsupported</repo>
 	<name>Bulk DIDs</name>
-	<description>Bulk DIDs uses CSV files to import bulk DIDs with a destination.</description>
-	<version>2.11.1.4</version>
+	<description>UNSUPPORTED. PLEASE USE Bulk Handler instead. Bulk DIDs uses CSV files to import bulk DIDs with a destination.</description>
+	<version>13.0.1alpha1</version>
 	<publisher>Schmooze Com Inc</publisher>
 	<license>GPLv3+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
@@ -17,6 +17,7 @@
 	<location>release/2.11/bulkdids-2.11.0.0.tgz</location>
 	<info/>
 	<changelog>
+		*13.0.1alpha1* Add unsupported messages
 		*2.11.1.4* #8401 - fix issue were fax detection time was not being set properly
 		*2.11.1.2* Generate License file
 		*2.11.1.0* Add Fax Import
@@ -36,7 +37,7 @@
 		*2.5.0.0* Initial Release
 	</changelog>
 	<supported>
-		<version>2.10</version>
+		<version>13.0</version>
 	</supported>
 	<md5sum>b37d02df3a974cea0181fffe2aa0edd0</md5sum>
 </module>

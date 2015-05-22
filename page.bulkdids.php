@@ -301,6 +301,10 @@ if ($_REQUEST["csv_type"] == "output") {
 	}
 
 ?>
+<div class="alert alert-danger">
+	<?php echo _("This module is depreciated in favor of Bulk Handler. Please use that instead. The two modules are not compatible!")?>
+</div>
+
 <h1>Bulk DIDs</h1>
 
 <h2>Manage DIDs in bulk using CSV files.</h2>
