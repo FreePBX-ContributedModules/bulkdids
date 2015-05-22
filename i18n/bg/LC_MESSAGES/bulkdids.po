@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-20 19:02-0500\n"
+"POT-Creation-Date: 2015-05-22 11:22-0400\n"
 "PO-Revision-Date: 2014-07-22 14:56+0200\n"
 "Last-Translator: Chavdar <chavdar_75@yahoo.com>\n"
 "Language-Team: Bulgarian <http://git.freepbx.org/projects/freepbx/bulkdids/"
@@ -32,16 +32,18 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 1.10-dev\n"
 
-#: bulkdids.i18n.php:4 bulkdids.i18n.php:10
-msgid "Applications"
-msgstr "Приложения"
-
-#: bulkdids.i18n.php:3 bulkdids.i18n.php:6 bulkdids.i18n.php:8
-#: bulkdids.i18n.php:14
-msgid "Bulk DIDs"
-msgstr "Групиране на DID"
-
-#: bulkdids.i18n.php:5 bulkdids.i18n.php:12
-msgid "Bulk DIDs uses CSV files to import bulk DIDs with a destination."
+#: page.bulkdids.php:305
+msgid ""
+"This module is depreciated in favor of Bulk Handler. Please use that "
+"instead. The two modules are not compatible!"
 msgstr ""
-"Групиране на DID използва CSV файлове за вмъкване на DID с направление."
+
+#~ msgid "Applications"
+#~ msgstr "Приложения"
+
+#~ msgid "Bulk DIDs"
+#~ msgstr "Групиране на DID"
+
+#~ msgid "Bulk DIDs uses CSV files to import bulk DIDs with a destination."
+#~ msgstr ""
+#~ "Групиране на DID използва CSV файлове за вмъкване на DID с направление."

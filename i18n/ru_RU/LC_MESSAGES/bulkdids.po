@@ -20,28 +20,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-20 19:02-0500\n"
+"POT-Creation-Date: 2015-05-22 11:22-0400\n"
 "PO-Revision-Date: 2015-04-23 15:22+0200\n"
 "Last-Translator: Yuriy <alliancesko@gmail.com>\n"
-"Language-Team: Russian "
-"<http://weblate.freepbx.org/projects/freepbx/bulkdids/ru_RU/>\n"
-"Language: ru_RU\n"
+"Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/bulkdids/"
+"ru_RU/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.2-dev\n"
 
-#: bulkdids.i18n.php:4 bulkdids.i18n.php:10
-msgid "Applications"
-msgstr "Приложения"
+#: page.bulkdids.php:305
+msgid ""
+"This module is depreciated in favor of Bulk Handler. Please use that "
+"instead. The two modules are not compatible!"
+msgstr ""
 
-#: bulkdids.i18n.php:3 bulkdids.i18n.php:6 bulkdids.i18n.php:8
-#: bulkdids.i18n.php:14
-msgid "Bulk DIDs"
-msgstr "Массовые DID'ы"
+#~ msgid "Applications"
+#~ msgstr "Приложения"
 
-#: bulkdids.i18n.php:5 bulkdids.i18n.php:12
-msgid "Bulk DIDs uses CSV files to import bulk DIDs with a destination."
-msgstr "Массовые DID'ы используют CSV файлы для импорта DID'ов с назначениями."
+#~ msgid "Bulk DIDs"
+#~ msgstr "Массовые DID'ы"
+
+#~ msgid "Bulk DIDs uses CSV files to import bulk DIDs with a destination."
+#~ msgstr ""
+#~ "Массовые DID'ы используют CSV файлы для импорта DID'ов с назначениями."
