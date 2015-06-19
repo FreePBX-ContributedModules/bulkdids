@@ -4,7 +4,7 @@
 	<name>Bulk DIDs</name>
 	<description>UNSUPPORTED. PLEASE USE Bulk Handler instead. Bulk DIDs uses CSV files to import bulk DIDs with a destination.</description>
 	<version>13.0.2</version>
-	<publisher>Schmooze Com Inc</publisher>
+	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv3+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<category>Applications</category>
@@ -15,7 +15,7 @@
 		<version>ge2.10alpha0</version>
 	</depends>
 	<location>release/2.11/bulkdids-2.11.0.0.tgz</location>
-	<info />
+	<info/>
 	<changelog>
 		*13.0.2* Version bump Beta
 		*13.0.1alpha1* Add unsupported messages
